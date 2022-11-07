@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+    <changeSet id="1" author="Leo">
+        <createTable tableName="person">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="person_id_pk" unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(250)" />
+            <column name="surname" type="varchar(250)" />
+        </createTable>
+        <createSequence sequenceName="person_sequence"/>
+
+        <createTable tableName="book">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="book_id_pk" unique="true" nullable="false" />
+            </column>
+            <column name="person_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="name" type="varchar(250)" />
+            <column name="author" type="varchar(250)" />
+        </createTable>
+        <createSequence sequenceName="book_sequence"/>
+        <addForeignKeyConstraint  baseColumnNames="person_id"
+                                  baseTableName="book"
+                                  constraintName="fk_book_person"
+                                  onDelete="RESTRICT"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="person"
+                                  validate="true"/>
+
+    </changeSet>
+
+</databaseChangeLog>
