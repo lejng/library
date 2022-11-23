@@ -7,7 +7,6 @@ This app help librarian to control books in library and have the following funct
 * Add, delete, show books
 * Assign book to client (Client take book from library)
 * Unassign book to client (Client return book to library)
-* Link to swagger ui `http://localhost:8080/swagger-ui/index.html`
 
 ### In plans
 - Add swagger (done)
@@ -20,8 +19,13 @@ This app help librarian to control books in library and have the following funct
   * Librarian - can assign and unassign book
   * Unregister user can see books and status busy or not
 
-### Run postgress in docker
-```powershell
-docker compose up
-docker compose down
-```
+### Run app
+- Java 17 must be installed
+- Run db in docker ```docker compose up```
+- Run app ```./gradlew bootRun```
+- Link to swagger ui `http://localhost:8080/swagger-ui/index.html`
+- Run tests: ```./gradlew test```
+
+### Run postgres in docker
+- Start docker container ```docker compose up```
+- Stop docker container ```docker compose down```
