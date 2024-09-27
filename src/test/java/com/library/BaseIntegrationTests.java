@@ -6,6 +6,7 @@ import com.library.dto.CreatePersonDto;
 import com.library.dto.PersonDto;
 import com.library.service.BookService;
 import com.library.service.PersonService;
+import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -34,8 +35,20 @@ class BaseIntegrationTests {
 	@Autowired
 	protected BookService bookService;
 
+	@Autowired
+	protected CleanupService cleanupService;
+
+	@AfterEach
+	void cleanUp() {
+		cleanupService.cleanDB();
+	}
+
 	protected PersonDto addPerson() {
-		var expectedPerson = new CreatePersonDto("Dick", "Pick");
+		return addPerson("Dick", "Pick");
+	}
+
+	protected PersonDto addPerson(String name, String surname) {
+		var expectedPerson = new CreatePersonDto(name, surname);
 		var response = postRequest("/persons", expectedPerson, PersonDto.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		var actualPerson = response.getBody();
@@ -44,10 +57,15 @@ class BaseIntegrationTests {
 		assertThat(actualPerson.surname()).isEqualTo(expectedPerson.surname());
 		assertThat(actualPerson.books()).isEmpty();
 		return actualPerson;
+
 	}
 
 	protected BookDto addBook() {
-		var expectedBook = new CreateBookDto("name 1", "author 1");
+		return addBook("The Millionaire Fastlane", "MJ DeMarco");
+	}
+
+	protected BookDto addBook(String name, String author) {
+		var expectedBook = new CreateBookDto(name, author);
 		var response = postRequest("/books", expectedBook, BookDto.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		var actualBook = response.getBody();
