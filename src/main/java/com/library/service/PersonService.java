@@ -1,10 +1,13 @@
 package com.library.service;
 
+import com.library.dto.BookDto;
 import com.library.dto.CreatePersonDto;
 import com.library.entity.Person;
 import com.library.dto.PersonDto;
 import com.library.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +25,12 @@ public class PersonService {
     }
 
     @Transactional(readOnly = true)
-    public List<PersonDto> findAll() {
-        return repository.findAll().stream().map(PersonDto::from).toList();
+    public List<PersonDto> find(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(pageable).stream().map(PersonDto::from).toList();
     }
 
+    @Transactional(readOnly = true)
     public Optional<PersonDto> byId(long id) {
         return repository.findById(id).map(PersonDto::from);
     }

@@ -23,7 +23,7 @@ class PersonControllerIntegrationTests extends BaseIntegrationTests {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(personService.byId(person.id())).isNotPresent();
         var responsePersonNotFound = getRequest("/persons/" + person.id(), PersonDto.class);
-        assertThat(responsePersonNotFound.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(responsePersonNotFound.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
 }
