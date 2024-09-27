@@ -6,8 +6,8 @@ import com.library.dto.PersonDto;
 import com.library.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +21,7 @@ public class PersonService {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
     public List<PersonDto> findAll() {
         return repository.findAll().stream().map(PersonDto::from).toList();
     }
