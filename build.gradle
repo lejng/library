@@ -1,12 +1,17 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.3'
-	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'org.springframework.boot' version '3.3.4'
+	id 'io.spring.dependency-management' version '1.1.6'
 	id 'java'
 }
 
 group = 'com.library'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
 
 repositories {
 	mavenCentral()
@@ -17,13 +22,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql
-	implementation group: 'org.postgresql', name: 'postgresql', version: '42.4.0'
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.4'
 	// https://mvnrepository.com/artifact/org.liquibase/liquibase-core
-	implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.16.1'
-	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
-	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.12'
-	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+	implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.29.2'
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3'
+
 
 
 
@@ -31,7 +37,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.assertj/assertj-core
 	testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.23.1'
 	// https://mvnrepository.com/artifact/org.testcontainers/postgresql
-	testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.17.5'
+	testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.20.1'
 
 
 }
