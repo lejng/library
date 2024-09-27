@@ -6,6 +6,8 @@ import com.library.entity.Book;
 import com.library.entity.Person;
 import com.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +31,9 @@ public class BookService {
         return BookDto.from(book);
     }
 
-    public List<BookDto> findAll() {
-        return repository.findAll().stream().map(BookDto::from).toList();
+    public List<BookDto> find(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(pageable).stream().map(BookDto::from).toList();
     }
 
     public Optional<BookDto> byId(long id) {

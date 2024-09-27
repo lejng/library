@@ -22,15 +22,16 @@ public class PersonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PersonDto>> showAll() {
-        return ResponseEntity.ok(personService.findAll());
+    public ResponseEntity<List<PersonDto>> showPersons(@RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(personService.find(page, size));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonDto> show(@PathVariable("id") Long id) {
+    public ResponseEntity<PersonDto> showPerson(@PathVariable("id") Long id) {
         return personService.byId(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -41,8 +42,11 @@ public class PersonController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
-        personService.delete(id);
-        // can return status
-        return ResponseEntity.ok().build();
+        if (personService.byId(id).isPresent()) {
+            personService.delete(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -22,15 +22,16 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDto>> showAll() {
-        return ResponseEntity.ok(bookService.findAll());
+    public ResponseEntity<List<BookDto>> showBooks(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(bookService.find(page, size));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> show(@PathVariable("id") Long id) {
+    public ResponseEntity<BookDto> showBook(@PathVariable("id") Long id) {
         return bookService.byId(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping

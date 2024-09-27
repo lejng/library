@@ -64,7 +64,7 @@ class BookControllerIntegrationTests extends BaseIntegrationTests {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(bookService.byId(book.id())).as("Book must be deleted").isNotPresent();
         var responseBookNotFound = getRequest("/books/" + book.id(), BookDto.class);
-        assertThat(responseBookNotFound.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(responseBookNotFound.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
 }
